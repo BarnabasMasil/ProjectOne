@@ -29,92 +29,10 @@ public class FileUtility {
 
   }
 
-  public void writeFile(String input) {
-
-    if (isEmpty) {
-      try (FileWriter fw = new FileWriter(file.getPath())) {
-        fw.write(input);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-      isEmpty = false;
-    } else {
-      try (FileWriter fw = new FileWriter(file.getPath(), true)) {
-        fw.write("\n" + input);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-      isEmpty = false;
-    }
-  }
-
-  public void printData() {
-    /*
-     * try { scan = new Scanner(file);
-     * 
-     * if (scan.hasNext()) { while (scan.hasNext()) { System.out.println(scan.nextLine()); } } else
-     * { System.out.println("Empty"); } } catch (FileNotFoundException e) { e.printStackTrace(); }
-     * finally { if (scan != null) scan.close(); }
-     */
-    
-    String loginUsername = null;
-    String loginPassword = null;
-    String[] urls = null;
-    String[] usernames = null;
-    String[] passwords = null;
-
-    try {
-      scan = new Scanner(file);
-
-      while (scan.hasNext()) {
-        String line = scan.nextLine();
-        if (line.equals("") || line.equals("\n")) {
-          System.out.println("");
-          continue;
-        }
-        
-        if(line.contains("LoginUser")) {
-          loginUsername = line.substring(line.indexOf(":")+1);
-        }
-        
-        if(line.contains("LoginPassword")) {
-          loginPassword = line.substring(line.indexOf(":")+1);
-        }
-
-        if (line.contains("Urls")) {
-          urls = line.substring(line.indexOf(":")+1).split("\\s");
-        }
-        
-        if(line.contains("Usernames")) {
-          usernames = line.substring(line.indexOf(":")+1).split("\\s");
-        }
-        
-        if(line.contains("Passwords")) {
-          passwords = line.substring(line.indexOf(":")+1).split("\\s");
-        }
-
-        Scanner tempScan = new Scanner(line);
-        System.out.println(tempScan.nextLine());
-
-      }
-
-
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    } finally {
-      if (scan != null)
-        scan.close();
-    }
-    System.out.println(loginUsername);
-    System.out.println(loginPassword);
-    for(int i = 0; i < urls.length; i++) {
-      System.out.print(urls[i] + "\n");
-      System.out.print(usernames[i] + "\n");
-      System.out.print(passwords[i] + "\n");
-    }
-
-  }
-
+  /**
+  * This method loads the data into a hashTableMap from a text file
+  * 
+  */
   public void loadData(HashTableMap<String, User> users) {
     String loginUsername = null;
     String loginPassword = null;
