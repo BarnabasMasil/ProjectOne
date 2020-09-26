@@ -1,4 +1,6 @@
-
+/*
+* This class holds data on the Urls, Password, and Usernames
+*/
 public class Data{
   
   private String url;
