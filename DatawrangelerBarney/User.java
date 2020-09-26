@@ -1,3 +1,7 @@
+/**
+* This class holds the login username and password to get into the password manager and also holds a hashTableMap of the credentials on Urls, Usernames and Passwords
+*
+*/
 public class User{
   
   private String loginUsername;
