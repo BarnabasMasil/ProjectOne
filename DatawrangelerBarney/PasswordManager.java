@@ -54,8 +54,12 @@ public class PasswordManager {
    * @param password      The String that contains a chosen password
    */
   public void addNewCredential(String loginUsername, String url, String username, String password) {
+    if(!users.containskey(loginUsername)) {
+      System.out.println("Cannot add credentials to invalid login username");
+      return;
+    }
+    
     users.get(loginUsername).addCredential(url, username, password);
-    users.get(loginUsername).getListOfUrls().add(url);//Debugging case with duplicates
   }
 
   /**
@@ -148,6 +152,7 @@ public class PasswordManager {
   public static void main(String[] args) {
     PasswordManager pm = new PasswordManager();
     pm.userInterface();
+    
   }
 
 }

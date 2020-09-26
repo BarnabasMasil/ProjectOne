@@ -107,6 +107,7 @@ public class FileUtility {
           // System.out.println(loginUsername);
           users.put(loginUsername, new User(loginUsername, loginPassword));
           listOfUsernames.add(loginUsername);
+          
           for (int i = 0; i < urls.length; i++) {
             users.get(loginUsername).addCredential(urls[i], usernames[i], passwords[i]);
           }
