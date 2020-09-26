@@ -13,7 +13,7 @@ import java.util.Scanner;
  */
 public class FileUtility {
 
-  private File file;
+  private File file;// The text file where changes and saves will occur
   private Scanner scan = null;
   private boolean isEmpty = true;
 
@@ -123,7 +123,7 @@ public class FileUtility {
 
   /**
    * This functions saves the changes that occured in the HashTableMap of Users and LinkedList of
-   * usernames into a text file
+   * usernames into the text file
    * 
    * @param users           The HashTableMap of Users
    * @param listOfUsernames LinkedList of usernames
