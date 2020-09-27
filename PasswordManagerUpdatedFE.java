@@ -46,10 +46,12 @@ public class PasswordManager {
     while (isRunning) {
       System.out.println(
           "If you're an existing member, press 'a'. If you're new, press 'b' to register: ");
-      String tempResponse = scan.nextLine();
+      
       boolean loginOrRegister = true;
 
       while (loginOrRegister) {
+	String tempResponse = scan.nextLine();
+	      
         if (tempResponse.equals("b")) {
           addNewUserHelper();
           loginOrRegister = false;
