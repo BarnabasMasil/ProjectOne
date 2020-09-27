@@ -1,0 +1,22 @@
+LoginUser: Jack
+LoginPassword: flower21
+URLS: twitter.com google.com
+Usernames: jack21 jack_1999
+Passwords: "emperor.2234" "thisisjack21"
+stop:
+
+LoginUser: Molly
+LoginPassword: pizzzaislovvve
+URLS: youtube.com linkedin.com
+Usernames: unicorn77 theBoss707
+Passwords: "deefd asfbbf" "Ds?dqgs sg" " dfgfg rgegh"
+stop:
+
+LoginUser: Dwight
+LoginPassword: iLoveBeets
+URLS: twitter.com google.com instagram.com
+Usernames: jackhammer AlPhAmAlE11 Assistant_to_the_Manager
+Passwords: "I hate Jim" "youwillneverguessmypassword" "bestsalesman2005-2014"
+stop:
+
+end:
