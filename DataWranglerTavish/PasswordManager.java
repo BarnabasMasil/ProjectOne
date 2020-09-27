@@ -159,7 +159,7 @@ public class PasswordManager {
    */
   public void addNewCredential(String loginUsername, String url, String username, String password) {
     users.get(loginUsername).addDetails(url, username, password);
-    users.get(loginUsername).getUrlList().add(url);// Debugging case with duplicates
+    // users.get(loginUsername).getUrlList().add(url);// Debugging case with duplicates
   }
 
   /**
