@@ -133,21 +133,35 @@ public class PasswordManager {
 
           String input = scan.nextLine().toLowerCase();
 
-          if (input.equals("y")) {
-            System.out.println("What URL's credentials would you like to retrieve? ");
-            tempUrl = scan.nextLine().trim();
-            if (tempUser.getCredentials().containsKey(tempUrl)) {
-              tempData = (Data) tempUser.getCredentials().get(tempUrl);
-              tempName = tempData.getUsername();
-              tempPass = tempData.getPassword();
+          while (retry) {
 
-              System.out.println("");
-              System.out.println("Retrieving username and password...");
-              System.out.println("");
-              System.out.println("Username for " + tempUrl + ": " + tempName);
-              System.out.println("Password for " + tempUrl + ": " + tempPass + "\n");
+							System.out.println("What URL's credentials would you like to retrieve? ");
+							tempUrl = scan.nextLine().trim();
+							if (tempUser.getCredentials().containsKey(tempUrl)) {
+								tempData = (Data) tempUser.getCredentials().get(tempUrl);
+								tempName = tempData.getUsername();
+								tempPass = tempData.getPassword();
 
-            }
+								System.out.println("");
+								System.out.println("Retrieving username and password...");
+								System.out.println("");
+								System.out.println("Username for " + tempUrl + ": " + tempName);
+								System.out.println("Password for " + tempUrl + ": " + tempPass + "\n");
+								System.out.println("");
+								System.out.println("Returning to main menu...");
+								try {
+									Thread.sleep(3000);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+								retry = false;
+
+							}
+
+							else {
+								System.out.println("Account does not exist for this URL. Please try again");
+							}
+						}
           } else if (input.equals("q")) {
 
             this.isRunning = false;
