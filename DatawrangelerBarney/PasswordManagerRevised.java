@@ -36,6 +36,12 @@ public class PasswordManager {
     User tempUser = null;
     Data tempData = null;
     boolean loginSuccess = false;
+    System.out.println("**********************************************************************");
+		System.out.println("");
+		System.out.println("*************   WELCOME TO PASSWORD MANAGER APPLICATION   ************");
+		System.out.println("");
+		System.out.println("**********************************************************************");
+		System.out.println("");
 
     // Login interface to login into the password manager
     while (isRunning) {
