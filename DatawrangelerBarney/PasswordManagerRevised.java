@@ -1,8 +1,4 @@
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -118,7 +114,8 @@ public class PasswordManager {
             } else if (input.equals("u")) {
               System.out.println("To update password please enter your username.");
               String userName = scan.nextLine().trim();
-              System.out.println("Enter new password.");
+              System.out.println(
+                  "Enter password of at least 6 characters including letters, numbers and ! or ?: ");
               String userPass = scan.nextLine().trim();
               updatePassword(userName, userPass);
               break;
@@ -248,15 +245,20 @@ public class PasswordManager {
    * @param newPassword- new password being added
    */
   public void updatePassword(String username, String newPassword) {
-    if (userNameExist(username)) {
-      users.remove(username);
-      listOfUsernames.remove(username);
-      users.put(username, new User(username, newPassword));
-      listOfUsernames.add(username);
+    while (!validatePassword(newPassword)) {
+      System.out.println("Password not Secure\n");
+      System.out
+          .print("Enter password of at least 6 characters including letters, numbers and ! or ?: ");
+      newPassword = scan.nextLine().trim();
+    }
+    User tempUser = null;
 
-      System.out.println("Password Updated Successfully\n");
-    } else
-      System.out.println("Username does not exist!\n");
+    if (users.containsKey(username)) {
+      tempUser = (User) users.get(username);
+    }
+    tempUser.setLoginPassword(newPassword);
+
+    System.out.println("Password Updated Successfully\n");
   }
 
   /**
