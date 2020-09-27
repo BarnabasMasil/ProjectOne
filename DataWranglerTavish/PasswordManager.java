@@ -6,7 +6,7 @@ import java.util.Scanner;
  * This class is the main class where Userinterface occurs and where altertion or changes are stored
  * or loaded
  * 
- * @author barna
+ * @author barna, aneesh
  *
  */
 public class PasswordManager {
@@ -18,7 +18,7 @@ public class PasswordManager {
   private boolean isRunning = true;
 
   public PasswordManager() {
-    utility = new FileDataHandler(new File("Data.txt"));
+    utility = new FileDataHandler(new File("database.txt"));
     users = new HashTableMap<>();
     listOfUsernames = new ArrayList<>();
     utility.loadData(users, listOfUsernames);
@@ -63,7 +63,7 @@ public class PasswordManager {
           break;
         }
       }
-      System.out.print("Enter your username:");
+      System.out.print("Enter your username: ");
       tempName = scan.nextLine();
 
       if (users.containsKey(tempName)) {
@@ -74,7 +74,7 @@ public class PasswordManager {
         int count = 0;
 
         while (incorrectPass) {
-          System.out.print("Enter password:");
+          System.out.print("Enter password: ");
           tempPass = scan.nextLine();
           if (tempUser.getLoginPassword().equals(tempPass)) {
             loginSuccess = true;
@@ -92,7 +92,7 @@ public class PasswordManager {
               count = 0;
             }
             System.out.println("Incorrect password");
-            System.out.print("Enter any key to retry or 'q' to exit:");
+            System.out.print("Enter any key to retry or 'q' to exit: ");
             String input = scan.nextLine();
 
             if (input.trim().equals("quit")) {
