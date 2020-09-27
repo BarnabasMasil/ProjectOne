@@ -32,6 +32,7 @@ public class FileDataHandler {
     FileWriter writer = null;
     try {
       writer = isEmptyLine ? new FileWriter(file.getPath()) : new FileWriter(file.getPath(), true);
+      isEmptyLine = false;
       writer.write(input + "\n");
     } catch (IOException e) {
       e.printStackTrace();
@@ -90,7 +91,7 @@ public class FileDataHandler {
           case "LoginPassword":
             userPassword = line.substring(line.indexOf(" ") + 1).trim();
             break;
-          case "URLS":
+          case "URL":
             String urlString = line.substring(line.indexOf(" "));
             urls = urlString.trim().split("\\s+");
             break;
@@ -149,14 +150,15 @@ public class FileDataHandler {
       String usernames = "";
       String passwords = "";
       for (String url : userDetails.getUrlList()) {
-        urls += url.trim();
-        usernames += userDetails.getDetails().get(url).getUsername().trim();
-        passwords += "\"" + userDetails.getDetails().get(url).getPassword().trim() + "\"";
+        urls += " " + url.trim();
+        usernames += " " + userDetails.getDetails().get(url).getUsername().trim();
+        passwords += " \"" + userDetails.getDetails().get(url).getPassword().trim() + "\"";
       }
-      writeFile("Urls:" + urls);
+      writeFile("URL:" + urls);
       writeFile("Usernames:" + usernames);
       writeFile("Passwords:" + passwords);
       writeFile("stop:" + "\n");
     }
+    writeFile("end:");
   }
 }
