@@ -40,9 +40,18 @@ public class User {
   public String getLoginUsername() {
     return loginUsername;
   }
-
+  
+  //Setting a new username will affect the hashtable, so implementation of updating username needs to be careful
+  public void setLoginUsername(String username){
+    this.loginUsername = username;
+  }
+  
   public String getLoginPassword() {
     return loginPassword;
+  }
+  
+  public void setLoginPassword(String password){
+    this.loginPassword = password;
   }
 
   public HashTableMap<String, Data> getCredentials() {
@@ -51,6 +60,10 @@ public class User {
 
   public LinkedList<String> getListOfUrls(){
     return listOfUrls;
+  }
+  
+  public void setListOfUrls(LinkedList<String> list){
+    this.listOfUrls = list;
   }
   
 }
