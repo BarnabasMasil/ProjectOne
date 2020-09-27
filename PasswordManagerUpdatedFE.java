@@ -144,7 +144,9 @@ public class PasswordManager {
 							System.out.println("Username for " + tempUrl + ": " + tempName);
 							System.out.println("Password for " + tempUrl + ": " + tempPass + "\n");
 
-						} else if (input.equals("q")) {
+						}
+					}
+						else if (input.equals("q")) {
 
 							this.isRunning = false;
 							isRunning = false;
