@@ -128,8 +128,6 @@ public class PasswordManager {
 					// new user), u(update password)");
 
 					String input = scan.nextLine().toLowerCase();
-					System.out.println("HII:" + input);
-
 					if (input.equals("y")) {
 						System.out.println("What URL's credentials would you like to retrieve? ");
 						tempUrl = scan.nextLine().trim();
