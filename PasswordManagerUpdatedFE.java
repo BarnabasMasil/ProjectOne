@@ -109,11 +109,11 @@ public class PasswordManager {
 				boolean isRunning = true;
 
 				System.out.println("Authentication Successful. Logging you in...");
+				System.out.println("Welcome Back " + tempName + "!");
 
 				while (isRunning) {
 					System.out.println("");
 					System.out.println("**********************************************************************");
-					System.out.println("Welcome Back " + tempName + "!");
 					System.out.println("");
 					System.out.println("Which of the following would you like to perform? ");
 					System.out.println("Search a new URL: press 'y'");
@@ -127,8 +127,8 @@ public class PasswordManager {
 					// "Press y(search new Url), q(exit app), c(change user), a(add new url), b(add
 					// new user), u(update password)");
 
-				
 					String input = scan.nextLine().toLowerCase();
+					System.out.println("HII:" + input);
 
 					if (input.equals("y")) {
 						System.out.println("What URL's credentials would you like to retrieve? ");
@@ -145,40 +145,36 @@ public class PasswordManager {
 							System.out.println("Password for " + tempUrl + ": " + tempPass + "\n");
 
 						}
-					}
-						else if (input.equals("q")) {
+					} else if (input.compareTo("q") == 0) {
 
-							this.isRunning = false;
-							isRunning = false;
-							System.out
-									.println("**********************************************************************");
-							System.out.println("");
-							System.out.println("*************    Thank you for using Password Manager    ************");
-							System.out.println("");
-							System.out
-									.println("**********************************************************************");
-							System.out.println("");
-							break;
-						} else if (input.equals("c")) {
-							isRunning = false;
-							break;
-						} else if (input.equals("a")) {
+						System.out.println("**********************************************************************");
+						System.out.println("");
+						System.out.println("*************    Thank you for using Password Manager    ************");
+						System.out.println("");
+						System.out.println("**********************************************************************");
+						System.out.println("");
+						this.isRunning = false;
+						isRunning = false;
+						break;
+					} else if (input.equals("c")) {
+						isRunning = false;
+						break;
+					} else if (input.equals("a")) {
 
-							addNewURLHelper();
-							break;
-						} else if (input.equals("b")) {
+						addNewURLHelper();
+						break;
+					} else if (input.equals("b")) {
 
-							addNewUserHelper();
-							break;
-						} else if (input.equals("u")) {
-							System.out.println("To update password please enter your username.");
-							String userName = scan.nextLine().trim();
-							System.out.println(
-									"Enter password of at least 6 characters including letters, numbers and ! or ?: ");
-							String userPass = scan.nextLine().trim();
-							updatePassword(userName, userPass);
-							break;
-						}
+						addNewUserHelper();
+						break;
+					} else if (input.equals("u")) {
+						System.out.println("To update password please enter your username.");
+						String userName = scan.nextLine().trim();
+						System.out.println(
+								"Enter password of at least 6 characters including letters, numbers and ! or ?: ");
+						String userPass = scan.nextLine().trim();
+						updatePassword(userName, userPass);
+						break;
 					} else {
 						System.out.println("Url does not exist");
 					}
