@@ -18,7 +18,7 @@ public class PasswordManager {
   private boolean isRunning = true;
 
   public PasswordManager() {
-    utility = new FileDataHandler(new File("DataEntry.txt"));
+    utility = new FileDataHandler(new File("Data.txt"));
     users = new HashTableMap<>();
     listOfUsernames = new ArrayList<>();
     utility.loadData(users, listOfUsernames);
@@ -43,12 +43,15 @@ public class PasswordManager {
 
     // Login interface to login into the password manager
     while (isRunning) {
+
       System.out.println(
           "If you're an existing member, press 'a'. If you're new, press 'b' to register: ");
-      String tempResponse = scan.nextLine();
       boolean loginOrRegister = true;
 
       while (loginOrRegister) {
+
+        String tempResponse = scan.nextLine();
+
         if (tempResponse.equals("b")) {
           addNewUserHelper();
           loginOrRegister = false;
@@ -80,7 +83,7 @@ public class PasswordManager {
             count++;
             if (count == 3) {
               System.out
-                  .println("Too many incorrect attempts. Please wait for a few moments to rety.");
+                  .println("Too many incorrect attempts. Please wait for a few moments to retry.");
               try {
                 Thread.sleep(60000);
               } catch (InterruptedException e) {
@@ -110,12 +113,12 @@ public class PasswordManager {
         boolean isRunning = true;
 
         System.out.println("Authentication Successful. Logging you in...");
-        System.out.println("Welcome Back " + tempName + "!");
 
         while (isRunning) {
           System.out.println("");
           System.out
               .println("**********************************************************************");
+          System.out.println("Welcome Back " + tempName + "!");
           System.out.println("");
           System.out.println("Which of the following would you like to perform? ");
           System.out.println("Search a new URL: press 'y'");
@@ -130,22 +133,44 @@ public class PasswordManager {
           // new user), u(update password)");
 
           String input = scan.nextLine().toLowerCase();
+
           if (input.equals("y")) {
-            System.out.println("What URL's credentials would you like to retrieve? ");
-            tempUrl = scan.nextLine().trim();
-            if (tempUser.getDetails().containsKey(tempUrl)) {
-              tempName = tempUser.getDetails().get(tempUrl).getUsername();
-              tempPass = tempUser.getDetails().get(tempUrl).getPassword();
 
-              System.out.println("");
-              System.out.println("Retrieving username and password...");
-              System.out.println("");
-              System.out.println("Username for " + tempUrl + ": " + tempName);
-              System.out.println("Password for " + tempUrl + ": " + tempPass + "\n");
+            boolean retry = true;
 
+            while (retry) {
+
+              System.out.println("What URL's credentials would you like to retrieve? ");
+              tempUrl = scan.nextLine().trim();
+              if (tempUser.getDetails().containsKey(tempUrl)) {
+                tempName = tempUser.getDetails().get(tempUrl).getUsername();
+                tempPass = tempUser.getDetails().get(tempUrl).getPassword();
+
+                System.out.println("");
+                System.out.println("Retrieving username and password...");
+                System.out.println("");
+                System.out.println("Username for " + tempUrl + ": " + tempName);
+                System.out.println("Password for " + tempUrl + ": " + tempPass + "\n");
+                System.out.println("");
+                System.out.println("Returning to main menu...");
+                try {
+                  Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                  e.printStackTrace();
+                }
+                retry = false;
+
+              }
+
+              else {
+                System.out.println("Account does not exist for this URL. Please try again");
+              }
             }
-          } else if (input.compareTo("q") == 0) {
 
+          } else if (input.equals("q")) {
+
+            this.isRunning = false;
+            isRunning = false;
             System.out
                 .println("**********************************************************************");
             System.out.println("");
@@ -155,8 +180,6 @@ public class PasswordManager {
             System.out
                 .println("**********************************************************************");
             System.out.println("");
-            this.isRunning = false;
-            isRunning = false;
             break;
           } else if (input.equals("c")) {
             isRunning = false;
@@ -206,19 +229,6 @@ public class PasswordManager {
     users.put(username, new Users(username, password));
     listOfUsernames.add(username);
 
-  }
-
-  /**
-   * This method adds a chosen Url, username and a password and associate it with a User object
-   * 
-   * @param loginUsername The String of the initial login username to associate the url, username,
-   *                      and password to
-   * @param url           The String that contains a chosen url
-   * @param username      The String that contains a chosen username
-   * @param password      The String that contains a chosen password
-   */
-  public void addNewCredential(String loginUsername, String url, String username, String password) {
-    users.get(loginUsername).addDetails(url, username, password);
   }
 
   /**
@@ -279,6 +289,20 @@ public class PasswordManager {
     addNewCredential(usernameInp, urlInp, urlUser, urlPass);
     this.isRunning = false;
     isRunning = false;
+
+  }
+
+  /**
+   * This method adds a chosen Url, username and a password and associate it with a User object
+   * 
+   * @param loginUsername The String of the initial login username to associate the url, username,
+   *                      and password to
+   * @param url           The String that contains a chosen url
+   * @param username      The String that contains a chosen username
+   * @param password      The String that contains a chosen password
+   */
+  public void addNewCredential(String loginUsername, String url, String username, String password) {
+    ((Users) users.get(loginUsername)).addDetails(url, username, password);
 
   }
 
