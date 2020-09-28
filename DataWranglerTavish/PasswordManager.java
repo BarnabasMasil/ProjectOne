@@ -1,26 +1,26 @@
 import java.io.File;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 /**
- * This class is the main class where Userinterface occurs and where altertion or changes are stored
- * or loaded
+ * This class is the main class where Userinterface occurs and where altertion
+ * or changes are stored or loaded
  * 
  * @author barna
  *
  */
 public class PasswordManager {
 
-  private FileDataHandler utility;
+  private FileUtility utility;
   private Scanner scan;
-  private HashTableMap<String, Users> users;
-  private ArrayList<String> listOfUsernames;
+  private HashTableMap<String, User> users;
+  private LinkedList<String> listOfUsernames;
   private boolean isRunning = true;
 
   public PasswordManager() {
-    utility = new FileDataHandler(new File("database.txt"));
+    utility = new FileUtility(new File("Datew.txt"));
     users = new HashTableMap<>();
-    listOfUsernames = new ArrayList<>();
+    listOfUsernames = new LinkedList<>();
     utility.loadData(users, listOfUsernames);
     scan = new Scanner(System.in);
   }
@@ -32,7 +32,8 @@ public class PasswordManager {
    */
   public void userInterface() {
     String tempName, tempPass, tempUrl;
-    Users tempUser = null;
+    User tempUser = null;
+    Data tempData = null;
     boolean loginSuccess = false;
     System.out.println("**********************************************************************");
     System.out.println("");
@@ -48,15 +49,20 @@ public class PasswordManager {
 
       while (loginOrRegister) {
 
-        System.out.print(
-            "If you're an existing member, press 'a'. If you're new, press 'b' to register: ");
+        System.out.print("If you're an existing member, press 'a'. If you're new, press 'b' to register: ");
 
         String tempResponse = scan.nextLine();
 
         if (tempResponse.equals("b")) {
-          addNewUserHelper();
-          loginOrRegister = false;
-          break;
+          if(addNewUserHelper() == true) {
+            loginOrRegister = false;
+            break;
+          }else {
+            loginOrRegister = true;
+            System.out.println("");
+            continue;
+          }
+          
         } else if (!tempResponse.equals("a") && !tempResponse.equals("b")) {
           System.out.println("Please enter a valid input");
           System.out.println("");
@@ -65,12 +71,13 @@ public class PasswordManager {
           break;
         }
       }
+      
       System.out.println("");
       System.out.print("To login, enter your username: ");
       tempName = scan.nextLine();
 
       if (users.containsKey(tempName)) {
-        tempUser = (Users) users.get(tempName);
+        tempUser = (User) users.get(tempName);
 
         boolean incorrectPass = true;
 
@@ -85,8 +92,7 @@ public class PasswordManager {
           } else {
             count++;
             if (count == 3) {
-              System.out
-                  .println("Too many incorrect attempts. Please wait for a few moments to retry.");
+              System.out.println("Too many incorrect attempts. Please wait for a few moments to retry.");
               try {
                 Thread.sleep(60000);
               } catch (InterruptedException e) {
@@ -124,8 +130,7 @@ public class PasswordManager {
 
         while (isRunning) {
           System.out.println("");
-          System.out
-              .println("**********************************************************************");
+          System.out.println("**********************************************************************");
           System.out.println("Welcome Back " + realName + "!");
           System.out.println("");
           System.out.println("Which of the following would you like to perform? ");
@@ -154,10 +159,11 @@ public class PasswordManager {
             while (retry) {
 
               System.out.print("URL: ");
-              tempUrl = scan.nextLine().trim().toLowerCase();
-              if (tempUser.getDetails().containsKey(tempUrl)) {
-                tempName = tempUser.getDetails().get(tempUrl).getUsername();
-                tempPass = tempUser.getDetails().get(tempUrl).getPassword();
+              tempUrl = scan.nextLine().trim();//Problem here: barney - i removed the toLowerCasr cuz it messes up the hashtable
+              if (tempUser.getCredentials().containsKey(tempUrl)) {
+                tempData = (Data) tempUser.getCredentials().get(tempUrl);
+                tempName = tempData.getUsername();
+                tempPass = tempData.getPassword();
 
                 System.out.println("");
                 System.out.println("Retrieving username and password...");
@@ -167,12 +173,29 @@ public class PasswordManager {
 
                 System.out.print("Enter any key to return to main menu: ");
                 scan.nextLine();
+
+                /*
+                 * try { Thread.sleep(3000); } catch (InterruptedException e) {
+                 * e.printStackTrace(); }
+                 */
                 retry = false;
+
               }
 
               else {
                 System.out.println("");
-                System.out.println("Account does not exist for this URL. Please try again");
+                System.out.println("Account does not exist for this URL. Enter any key to try again");
+                System.out.println("Or enter 'q' to go back to the menu");
+                
+                input = scan.nextLine().toLowerCase();
+                System.out.println("");
+                
+                if(input.equals("q")) {
+                  retry = false;
+                  break;
+                }else {
+                  continue;
+                }
               }
             }
 
@@ -180,14 +203,11 @@ public class PasswordManager {
 
             this.isRunning = false;
             isRunning = false;
-            System.out
-                .println("**********************************************************************");
+            System.out.println("**********************************************************************");
             System.out.println("");
-            System.out
-                .println("*************    Thank you for using Password Manager    ************");
+            System.out.println("*************    Thank you for using Password Manager    ************");
             System.out.println("");
-            System.out
-                .println("**********************************************************************");
+            System.out.println("**********************************************************************");
             System.out.println("");
             break;
           } else if (input.equals("c")) {
@@ -196,7 +216,7 @@ public class PasswordManager {
           } else if (input.equals("a")) {
 
             addNewURLHelper(realName);
-            break;
+            
           } else if (input.equals("b")) {
 
             addNewUserHelper();
@@ -210,34 +230,36 @@ public class PasswordManager {
             updatePassword(userName, userPass);
             break;
           } else {
-            System.out.println("Url does not exist");
+            System.out.println("Invalid output");
           }
-        }
+          
+          
+        }//Login success option part
       }
     }
 
     System.out.println("Exiting and saving application");
-    utility.saveData(users, listOfUsernames);
+    utility.saveData(users, listOfUsernames);// Dont forget this as this will save the changes
   }
 
   /**
-   * This method adds new user with a new username and password String into the users hashTable.
-   * duplicates of usernames are not allowed
+   * This method adds new user with a new username and password String into the
+   * users hashTable. duplicates of usernames are not allowed
    * 
    * @param username The String that contains a chosen username
    * @param password The String that contains a chosen password
    */
-  public void addNewUser(String username, String password) {
+  public boolean addNewUser(String username, String password) {
     for (int i = 0; i < listOfUsernames.size(); i++) {
       if (username.equals(listOfUsernames.get(i))) {
         System.out.println("Username already taken.");
-        return;
+        return false;
       }
     }
 
-    users.put(username, new Users(username, password));
+    users.put(username, new User(username, password));
     listOfUsernames.add(username);
-
+    return true;
   }
 
   /**
@@ -245,25 +267,25 @@ public class PasswordManager {
    * 
    * @author Jeff
    */
-  public void addNewUserHelper() {
+  public boolean addNewUserHelper() {
     System.out.println("");
     System.out.print("Enter new username: ");
     String user = scan.nextLine().trim();
 
-    System.out
-        .print("Enter password of at least 6 characters including letters, numbers and ! or ?: ");
+    System.out.print("Enter password of at least 6 characters including letters, numbers and ! or ?: ");
     String pass = scan.nextLine().trim();
     while (!validatePassword(pass)) {
       System.out.println("Password not secure.");
       System.out.println("");
-      System.out
-          .print("Enter password of at least 6 characters including letters, numbers and ! or ?: ");
+      System.out.print("Enter password of at least 6 characters including letters, numbers and ! or ?: ");
       pass = scan.nextLine().trim();
     }
-    addNewUser(user, pass);
-    System.out.println("Successfuly added new user.");
-    System.out.println("");
-
+    if(addNewUser(user, pass)) {
+      System.out.println("Successfuly added new user.");
+      return true;
+    }
+    return false;
+    
   }
 
   /**
@@ -297,22 +319,21 @@ public class PasswordManager {
     System.out.println("New URL with Username and Password added.");
 
     addNewCredential(usernameInp, urlInp, urlUser, urlPass);
-    this.isRunning = false;
-    isRunning = false;
 
   }
 
   /**
-   * This method adds a chosen Url, username and a password and associate it with a User object
+   * This method adds a chosen Url, username and a password and associate it with
+   * a User object
    * 
-   * @param loginUsername The String of the initial login username to associate the url, username,
-   *                      and password to
+   * @param loginUsername The String of the initial login username to associate
+   *                      the url, username, and password to
    * @param url           The String that contains a chosen url
    * @param username      The String that contains a chosen username
    * @param password      The String that contains a chosen password
    */
   public void addNewCredential(String loginUsername, String url, String username, String password) {
-    ((Users) users.get(loginUsername)).addDetails(url, username, password);
+    users.get(loginUsername).addCredential(url, username, password);
 
   }
 
@@ -336,14 +357,13 @@ public class PasswordManager {
   public void updatePassword(String username, String newPassword) {
     while (!validatePassword(newPassword)) {
       System.out.println("Password not Secure\n");
-      System.out
-          .print("Enter password of at least 6 characters including letters, numbers and ! or ?: ");
+      System.out.print("Enter password of at least 6 characters including letters, numbers and ! or ?: ");
       newPassword = scan.nextLine().trim();
     }
-    Users tempUser = null;
+    User tempUser = null;
 
     if (users.containsKey(username)) {
-      tempUser = (Users) users.get(username);
+      tempUser = (User) users.get(username);
     }
     tempUser.setLoginPassword(newPassword);
 
@@ -351,8 +371,8 @@ public class PasswordManager {
   }
 
   /**
-   * This helper method checks to see if password matches the criteria of having length 6 with
-   * numbers and letters and either a ! or ? symbol.
+   * This helper method checks to see if password matches the criteria of having
+   * length 6 with numbers and letters and either a ! or ? symbol.
    * 
    * @author Jeff
    * @param pass - password input
@@ -395,6 +415,6 @@ public class PasswordManager {
   public static void main(String[] args) {
     PasswordManager pm = new PasswordManager();
     pm.userInterface();
+    
   }
-
 }
