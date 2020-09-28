@@ -6,7 +6,7 @@ import java.util.Scanner;
  * This class is the main class where Userinterface occurs and where altertion or changes are stored
  * or loaded
  * 
- * @author barna, aneesh
+ * @author barna
  *
  */
 public class PasswordManager {
@@ -44,11 +44,12 @@ public class PasswordManager {
     // Login interface to login into the password manager
     while (isRunning) {
 
-      System.out.println(
-          "If you're an existing member, press 'a'. If you're new, press 'b' to register: ");
       boolean loginOrRegister = true;
 
       while (loginOrRegister) {
+
+        System.out.print(
+            "If you're an existing member, press 'a'. If you're new, press 'b' to register: ");
 
         String tempResponse = scan.nextLine();
 
@@ -57,13 +58,15 @@ public class PasswordManager {
           loginOrRegister = false;
           break;
         } else if (!tempResponse.equals("a") && !tempResponse.equals("b")) {
-          System.out.println("Please enter a valid input: ");
+          System.out.println("Please enter a valid input");
+          System.out.println("");
         } else {
           // loginOrRegister = false;
           break;
         }
       }
-      System.out.print("Enter your username: ");
+      System.out.println("");
+      System.out.print("To login, enter your username: ");
       tempName = scan.nextLine();
 
       if (users.containsKey(tempName)) {
@@ -91,11 +94,13 @@ public class PasswordManager {
               }
               count = 0;
             }
+            System.out.println("");
             System.out.println("Incorrect password");
             System.out.print("Enter any key to retry or 'q' to exit: ");
             String input = scan.nextLine();
+            System.out.println("");
 
-            if (input.trim().equals("quit")) {
+            if (input.trim().equals("q")) {
               isRunning = false;
               break;
             }
@@ -104,11 +109,14 @@ public class PasswordManager {
 
       } else {
         System.out.println("No such username exists");
+        System.out.println("");
         continue;
       }
 
       // User Interface where user is in the actual password manager
       if (loginSuccess == true) {
+
+        String realName = tempName;
 
         boolean isRunning = true;
 
@@ -118,7 +126,7 @@ public class PasswordManager {
           System.out.println("");
           System.out
               .println("**********************************************************************");
-          System.out.println("Welcome Back " + tempName + "!");
+          System.out.println("Welcome Back " + realName + "!");
           System.out.println("");
           System.out.println("Which of the following would you like to perform? ");
           System.out.println("Search a new URL: press 'y'");
@@ -127,21 +135,26 @@ public class PasswordManager {
           System.out.println("Change user: press 'c'");
           System.out.println("Add new user: press 'b'");
           System.out.println("Quit the app: press 'q'");
+          System.out.println("");
+          System.out.print("Input: ");
 
           // System.out.print(
           // "Press y(search new Url), q(exit app), c(change user), a(add new url), b(add
           // new user), u(update password)");
 
           String input = scan.nextLine().toLowerCase();
+          System.out.println("");
 
           if (input.equals("y")) {
 
             boolean retry = true;
 
+            System.out.println("What URL's credentials would you like to retrieve? ");
+
             while (retry) {
 
-              System.out.println("What URL's credentials would you like to retrieve? ");
-              tempUrl = scan.nextLine().trim();
+              System.out.print("URL: ");
+              tempUrl = scan.nextLine().trim().toLowerCase();
               if (tempUser.getDetails().containsKey(tempUrl)) {
                 tempName = tempUser.getDetails().get(tempUrl).getUsername();
                 tempPass = tempUser.getDetails().get(tempUrl).getPassword();
@@ -151,18 +164,14 @@ public class PasswordManager {
                 System.out.println("");
                 System.out.println("Username for " + tempUrl + ": " + tempName);
                 System.out.println("Password for " + tempUrl + ": " + tempPass + "\n");
-                System.out.println("");
-                System.out.println("Returning to main menu...");
-                try {
-                  Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                  e.printStackTrace();
-                }
-                retry = false;
 
+                System.out.print("Enter any key to return to main menu: ");
+                scan.nextLine();
+                retry = false;
               }
 
               else {
+                System.out.println("");
                 System.out.println("Account does not exist for this URL. Please try again");
               }
             }
@@ -186,16 +195,16 @@ public class PasswordManager {
             break;
           } else if (input.equals("a")) {
 
-            addNewURLHelper();
+            addNewURLHelper(realName);
             break;
           } else if (input.equals("b")) {
 
             addNewUserHelper();
             break;
           } else if (input.equals("u")) {
-            System.out.println("To update password please enter your username.");
+            System.out.print("To update password please enter your username: ");
             String userName = scan.nextLine().trim();
-            System.out.println(
+            System.out.print(
                 "Enter password of at least 6 characters including letters, numbers and ! or ?: ");
             String userPass = scan.nextLine().trim();
             updatePassword(userName, userPass);
@@ -208,7 +217,7 @@ public class PasswordManager {
     }
 
     System.out.println("Exiting and saving application");
-    utility.saveData(users, listOfUsernames);// Dont forget this as this will save the changes
+    utility.saveData(users, listOfUsernames);
   }
 
   /**
@@ -221,7 +230,7 @@ public class PasswordManager {
   public void addNewUser(String username, String password) {
     for (int i = 0; i < listOfUsernames.size(); i++) {
       if (username.equals(listOfUsernames.get(i))) {
-        System.out.println("Username already taken");
+        System.out.println("Username already taken.");
         return;
       }
     }
@@ -237,20 +246,23 @@ public class PasswordManager {
    * @author Jeff
    */
   public void addNewUserHelper() {
-    System.out.println("Enter new username");
+    System.out.println("");
+    System.out.print("Enter new username: ");
     String user = scan.nextLine().trim();
 
     System.out
         .print("Enter password of at least 6 characters including letters, numbers and ! or ?: ");
     String pass = scan.nextLine().trim();
     while (!validatePassword(pass)) {
-      System.out.println("Password not Secure\n");
+      System.out.println("Password not secure.");
+      System.out.println("");
       System.out
           .print("Enter password of at least 6 characters including letters, numbers and ! or ?: ");
       pass = scan.nextLine().trim();
     }
     addNewUser(user, pass);
-    System.out.println("Added new user");
+    System.out.println("Successfuly added new user.");
+    System.out.println("");
 
   }
 
@@ -259,32 +271,30 @@ public class PasswordManager {
    * 
    * @author Jeff
    */
-  public void addNewURLHelper() {
-    String usernameInp;
+  public void addNewURLHelper(String username) {
+    String usernameInp = username;
     String urlInp;
     String urlPass;
     String urlUser;
 
-    System.out.print("Enter the username");
-    usernameInp = scan.nextLine().trim();
-
     while (!users.containsKey(usernameInp)) {
       System.out.println("Username doesn't exist\n");
-      System.out.print("Enter the username");
+      System.out.print("Enter your username: ");
       usernameInp = scan.nextLine().trim();
     }
 
-    System.out.println("Enter new URL ");
+    System.out.print("Enter new URL: ");
 
     urlInp = scan.nextLine().trim();
 
-    System.out.println("add username for url");
+    System.out.print("Username for URL: ");
     urlUser = scan.nextLine().trim();
 
-    System.out.println("add password for url");
+    System.out.print("Password for URL: ");
     urlPass = scan.nextLine().trim();
 
-    System.out.println("URL with User and Pass added.");
+    System.out.println("");
+    System.out.println("New URL with Username and Password added.");
 
     addNewCredential(usernameInp, urlInp, urlUser, urlPass);
     this.isRunning = false;
