@@ -263,6 +263,8 @@ public class TestProjectOne {
 		test.add(invalidInputTest1());
 		test.add(invalidInputTest2());
 		test.add(invalidUsernameTest());
+		test.add(invalidPasswordTest());
+		test.add(duplicateUsernameTest());
 		test.add(addURLgetURLTest());
 		test.add(updatePasswordTest());
 
@@ -276,6 +278,8 @@ public class TestProjectOne {
 		System.out.println("invalidInputTest1: " + test.get(i++));
 		System.out.println("invalidInputTest2: " + test.get(i++));
 		System.out.println("invalidUsernameTest: " + test.get(i++));
+		System.out.println("invalidPasswordTest: "+ test.get(i++));
+		System.out.println("duplicateUsernameTest: "+ test.get(i++));
 		System.out.println("addURLgetURLTest: " + test.get(i++));
 		System.out.println("updatePasswordTest: " + test.get(i++));
 
