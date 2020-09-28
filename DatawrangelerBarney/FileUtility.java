@@ -74,7 +74,7 @@ public class FileUtility {
           urls = info.substring(info.indexOf(":") + 1).trim().split("\\s");
         }
 
-        if (line.equals("Usernames")) {
+        if (line.equals("Usernames")) {//Test this
           usernames = info.substring(info.indexOf(":") + 1).trim().split("\\s");
         }
 
@@ -116,6 +116,13 @@ public class FileUtility {
           for (int i = 0; i < urls.length; i++) {
             users.get(loginUsername).addCredential(urls[i], usernames[i], passwords[i]);
           }
+          
+          loginUsername = null;
+          loginPassword = null;
+          urls = null;
+          usernames = null;
+          passwords = null;
+          
         }
       }
 
