@@ -18,7 +18,7 @@ public class PasswordManager {
   private boolean isRunning = true;
 
   public PasswordManager() {
-    utility = new FileUtility(new File("DataNew.txt"));
+    utility = new FileUtility(new File("Datew.txt"));
     users = new HashTableMap<>();
     listOfUsernames = new LinkedList<>();
     utility.loadData(users, listOfUsernames);
@@ -178,6 +178,17 @@ public class PasswordManager {
               else {
                 System.out.println("");
                 System.out.println("Account does not exist for this URL. Please try again");
+                System.out.println("Or press 'q' to go back to the menu");
+                
+                input = scan.nextLine().toLowerCase();
+                System.out.println("");
+                
+                if(input.equals("q")) {
+                  retry = false;
+                  break;
+                }else {
+                  continue;
+                }
               }
             }
 
@@ -198,7 +209,6 @@ public class PasswordManager {
           } else if (input.equals("a")) {
 
             addNewURLHelper(realName);
-            break;
           } else if (input.equals("b")) {
 
             addNewUserHelper();
@@ -212,9 +222,11 @@ public class PasswordManager {
             updatePassword(userName, userPass);
             break;
           } else {
-            System.out.println("Url does not exist");
+            System.out.println("Invalid output");
           }
-        }
+          
+          
+        }//Login success option part
       }
     }
 
@@ -297,8 +309,6 @@ public class PasswordManager {
     System.out.println("New URL with Username and Password added.");
 
     addNewCredential(usernameInp, urlInp, urlUser, urlPass);
-    this.isRunning = false;
-    isRunning = false;
 
   }
 
