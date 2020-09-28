@@ -19,7 +19,16 @@ public class FileDataHandler {
   private boolean isEmptyLine = true;
 
   public FileDataHandler(File file) {
-    this.file = file;
+    try {
+      file.createNewFile();
+      this.file = file;
+      if (file.length() == 0) {
+        isEmptyLine = true;
+      } else {
+        isEmptyLine = false;
+      }
+    } catch (IOException e) {
+    }
   }
 
   /**
@@ -32,8 +41,8 @@ public class FileDataHandler {
     FileWriter writer = null;
     try {
       writer = isEmptyLine ? new FileWriter(file.getPath()) : new FileWriter(file.getPath(), true);
-      isEmptyLine = false;
       writer.write(input + "\n");
+      isEmptyLine = false;
     } catch (IOException e) {
       e.printStackTrace();
     } finally {
@@ -92,34 +101,47 @@ public class FileDataHandler {
             userPassword = line.substring(line.indexOf(" ") + 1).trim();
             break;
           case "URL":
-            String urlString = line.substring(line.indexOf(" "));
-            urls = urlString.trim().split("\\s+");
+            if (!line.substring(line.indexOf(":")).equals(":")) {
+              String urlString = line.substring(line.indexOf(" "));
+              urls = urlString.trim().split("\\s+");
+            }
             break;
           case "Usernames":
-            String usernameString = line.substring(line.indexOf(" "));
-            username = usernameString.trim().split("\\s+");
+            if (!line.substring(line.indexOf(":")).equals(":")) {
+              String usernameString = line.substring(line.indexOf(" "));
+              username = usernameString.trim().split("\\s+");
+            }
             break;
           case "Passwords":
-            String passwordString = line.substring(line.indexOf(" "));
-            String[] temp = passwordString.trim().split("\"");
-            password = new String[temp.length / 2];
-            int index = 0;
-            for (int i = 0; i < temp.length; i++) {
-              temp[i] = temp[i].trim();
-              if (temp[i].equals("")) {
-                continue;
-              } else {
-                password[index] = temp[i];
-                index++;
+            if (!line.substring(line.indexOf(":")).equals(":")) {
+              String passwordString = line.substring(line.indexOf(" "));
+              String[] temp = passwordString.trim().split("\"");
+              password = new String[temp.length / 2];
+              int index = 0;
+              for (int i = 0; i < temp.length; i++) {
+                temp[i] = temp[i].trim();
+                if (temp[i].equals("")) {
+                  continue;
+                } else {
+                  password[index] = temp[i];
+                  index++;
+                }
               }
             }
             break;
           case "stop":
             users.put(userLogin, new Users(userLogin, userPassword));
             usernameList.add(userLogin);
-            for (int i = 0; i < username.length; i++) {
-              users.get(userLogin).addDetails(urls[i], username[i], password[i]);
+            if (urls != null) {
+              for (int i = 0; i < username.length; i++) {
+                users.get(userLogin).addDetails(urls[i], username[i], password[i]);
+              }
             }
+            userLogin = null;
+            userPassword = null;
+            urls = null;
+            username = null;
+            password = null;
             break;
         }
       }
