@@ -55,15 +55,6 @@ public class Users {
     }
 
     /**
-     * sets the value of url
-     * 
-     * @param url
-     */
-    public void setUrl(String url) {
-      this.url = url;
-    }
-
-    /**
      * sets the value of username
      * 
      * @param username
