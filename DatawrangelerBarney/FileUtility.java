@@ -48,6 +48,8 @@ public class FileUtility {
     String[] urls = null;
     String[] usernames = null;
     String[] passwords = null;
+    
+    boolean isCredentialsEmpty = true;
 
     try {
       scan = new Scanner(file);
@@ -72,13 +74,15 @@ public class FileUtility {
 
         if (line.equals("Urls")) {
           urls = info.substring(info.indexOf(":") + 1).trim().split("\\s");
+          if(urls[0].length() == 1)
+            isCredentialsEmpty = true;
         }
 
-        if (line.equals("Usernames")) {//Test this
+        if (line.equals("Usernames") && isCredentialsEmpty == false) {//Test this
           usernames = info.substring(info.indexOf(":") + 1).trim().split("\\s");
         }
 
-        if (line.equals("Passwords")) {
+        if (line.equals("Passwords") && isCredentialsEmpty == false) {
 
           info = info.substring(info.indexOf(":") + 1).trim();
           // System.out.println(info);
@@ -113,8 +117,10 @@ public class FileUtility {
           users.put(loginUsername, new User(loginUsername, loginPassword));
           listOfUsernames.add(loginUsername);
           
-          for (int i = 0; i < urls.length; i++) {
-            users.get(loginUsername).addCredential(urls[i], usernames[i], passwords[i]);
+          if(isCredentialsEmpty == false) {
+            for (int i = 0; i < urls.length; i++) {
+              users.get(loginUsername).addCredential(urls[i], usernames[i], passwords[i]);
+            }
           }
           
           loginUsername = null;
@@ -122,7 +128,7 @@ public class FileUtility {
           urls = null;
           usernames = null;
           passwords = null;
-          
+          isCredentialsEmpty = true;
         }
       }
 
