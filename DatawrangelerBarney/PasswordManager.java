@@ -18,7 +18,7 @@ public class PasswordManager {
   private boolean isRunning = true;
 
   public PasswordManager() {
-    utility = new FileUtility(new File("Datew.txt"));
+    utility = new FileUtility(new File("Data.txt"));
     users = new HashTableMap<>();
     listOfUsernames = new LinkedList<>();
     utility.loadData(users, listOfUsernames);
