@@ -19,13 +19,18 @@ public class FileUtility {
 
   // The constructor takes a file as its parameter
   public FileUtility(File file) {
-    this.file = file;
     Scanner temp;
     try {
+      file.createNewFile();
+      this.file = file;
+      
       temp = new Scanner(file);
       isEmpty = !temp.hasNext();
+      
     } catch (FileNotFoundException e) {
       e.printStackTrace();
+    } catch (IOException e1) {
+      e1.printStackTrace();
     }
 
   }
@@ -203,6 +208,7 @@ public class FileUtility {
     try {
       if (isEmpty == true) {
         fw = new FileWriter(file.getPath());
+        isEmpty = false;
       } else {
         fw = new FileWriter(file.getPath(), true);
       }
