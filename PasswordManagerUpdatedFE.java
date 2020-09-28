@@ -1,12 +1,20 @@
+// --== CS400 File Header Information ==--
+// Name: Aneesh Patil
+// Email: apatil6@wisc.edu
+// Team: GA
+// TA: Daniel Kiel
+// Lecturer: Gary Dahl
+// Notes to Grader: NA
+
 import java.io.File;
 import java.util.LinkedList;
 import java.util.Scanner;
 
 /**
- * This class is the main class where Userinterface occurs and where altertion
- * or changes are stored or loaded
+ * This class models the representation of a generic Password Manager including
+ * the interface. User will be prompted to input login details or register
  * 
- * @author barna
+ * @author barna, aneesh
  *
  */
 public class PasswordManager {
@@ -48,7 +56,6 @@ public class PasswordManager {
 			boolean loginOrRegister = true;
 
 			while (loginOrRegister) {
-
 				System.out.print("If you're an existing member, press 'a'. If you're new, press 'b' to register: ");
 
 				String tempResponse = scan.nextLine();
@@ -245,12 +252,19 @@ public class PasswordManager {
 	/**
 	 * This helper method aids in adding a new user with a strong password
 	 * 
-	 * @author Jeff
+	 * @author Jeff, aneesh
 	 */
 	public void addNewUserHelper() {
 		System.out.println("");
 		System.out.print("Enter new username: ");
 		String user = scan.nextLine().trim();
+
+		while (listOfUsernames.contains(user)) {
+			System.out.println("Username already exists. Try again:");
+
+			System.out.print("Enter new username: ");
+			user = scan.nextLine().trim();
+		}
 
 		System.out.print("Enter password of at least 6 characters including letters, numbers and ! or ?: ");
 		String pass = scan.nextLine().trim();
@@ -260,6 +274,7 @@ public class PasswordManager {
 			System.out.print("Enter password of at least 6 characters including letters, numbers and ! or ?: ");
 			pass = scan.nextLine().trim();
 		}
+
 		addNewUser(user, pass);
 		System.out.println("Successfuly added new user.");
 		System.out.println("");
