@@ -240,4 +240,11 @@ public class FileUtility {
       }
     }
   }
+  
+  /**
+   * Returns true if the file is empty and false otherwise
+   */
+  public boolean getIsFileEmpty() {
+    return isEmpty;
+  }
 }
