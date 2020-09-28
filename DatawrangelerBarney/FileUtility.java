@@ -74,11 +74,14 @@ public class FileUtility {
 
         if (line.equals("Urls")) {
           urls = info.substring(info.indexOf(":") + 1).trim().split("\\s");
-          if(urls[0].length() == 1)
+          if(urls[0].length() == 0) {
             isCredentialsEmpty = true;
+          }else {
+            isCredentialsEmpty = false;
+          }
         }
 
-        if (line.equals("Usernames") && isCredentialsEmpty == false) {//Test this
+        if (line.equals("Usernames") && isCredentialsEmpty == false) {
           usernames = info.substring(info.indexOf(":") + 1).trim().split("\\s");
         }
 
@@ -89,6 +92,7 @@ public class FileUtility {
           passwords = new String[urls.length];
 
           String temp = "";
+          
           boolean onPassword = false;
           int counter = 0;
 
@@ -102,6 +106,7 @@ public class FileUtility {
                 passwords[counter] = temp.substring(1);
                 counter++;
                 temp = "";
+                
               }
             }
 
@@ -120,6 +125,7 @@ public class FileUtility {
           if(isCredentialsEmpty == false) {
             for (int i = 0; i < urls.length; i++) {
               users.get(loginUsername).addCredential(urls[i], usernames[i], passwords[i]);
+
             }
           }
           

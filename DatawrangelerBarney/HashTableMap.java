@@ -127,7 +127,7 @@ public class HashTableMap<KeyType, ValueType> implements MapADT<KeyType, ValueTy
    * @return boolean
    */
   @Override
-  public boolean containskey(KeyType key) {
+  public boolean containsKey(KeyType key) {
 
     // Hashes the key by using the hasCode() method and modulus operator
     int hashIndex = Math.abs(key.hashCode()) % capacity;
