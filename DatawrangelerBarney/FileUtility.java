@@ -31,7 +31,7 @@ public class FileUtility {
     Scanner temp;
     try {
       if(file == null) {
-        throw new NullPointerException("Enable to read or write to a null file");
+        throw new NullPointerException("Unable to read or write to a null file");
       }
       
       file.createNewFile();
