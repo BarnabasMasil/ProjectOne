@@ -1,9 +1,20 @@
+// --== CS400 File Header Information ==--
+// Name: Arjun Iyer
+// Email: iyer9@wisc.edu
+// Team: GA
+// Role: Test Engineer
+// TA: Daniel Kiel
+// Lecturer: Florian Heimerl
+// Notes to Grader:
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 /**
+ * Tests the PasswordManager and FileUtility classes
  * 
  * @author arjun
  *
@@ -11,11 +22,86 @@ import java.util.LinkedList;
 public class TestProjectOne {
 
 	/**
+	 * Runs multiple tests on the FileUtility class
 	 * 
 	 * @return
 	 */
+	public static boolean fileUtilityTest() {
+
+		System.out.println();
+		System.out.println();
+		System.out.println("fileUtilityTest: ");
+		System.out.println();
+		System.out.println();
+		
+		FileUtility f;
+
+		try {
+			// passes null File object
+			f = new FileUtility(null);
+
+			// passes filename that does not exist
+			f = new FileUtility(new File("test.txt"));
+
+			// creating and passing HashTableMap object and LinkedList object to loadData()
+			// method to convert data in test.txt to a hashTableMap assuming an empty file
+			// with the same name has been created
+			HashTableMap<String, User> users = new HashTableMap<String, User>();
+			LinkedList<String> listOfUsernames = new LinkedList<String>();
+			f.loadData(users, listOfUsernames);
+
+			// if test.txt is created and loadData() works without errors, an empty
+			// HashTableMap with an empty listofUsernames should have been initialized
+			if (users.size() != 0) {
+				return false;
+			}
+			if (listOfUsernames.size() != 0) {
+				return false;
+			}
+
+			// testing saveData() method
+
+			// adding a User to the HashTableMap and listOfUsernames
+			users.put("testusername", new User("testusername", "testpassword"));
+			listOfUsernames.add("testusername");
+
+			// using saveData() method
+			f.saveData(users, listOfUsernames);
+
+			// scanning test.txt
+			Scanner scan = new Scanner(new File("test.txt"));
+			String temp = scan.nextLine();
+			scan.close();
+
+			// checking presence of data
+			if (!temp.equals("LoginUser:testusername")) {
+				return false;
+			}
+
+			// deleting test.txt
+			new File("test.txt").delete();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Tests the create new user functionality
+	 * 
+	 * @return boolean - determines the success of the test
+	 */
 	public static boolean createUserTest() {
 
+		System.out.println();
+		System.out.println();
+		System.out.println("createUserTest: ");
+		System.out.println();
+		System.out.println();
+		
 		// Commands that create a new user and try logging in with it - Continues with
 		// standard program flow and quits
 		String simulatedUserInput = "b" + System.getProperty("line.separator") + "abc"
@@ -28,7 +114,7 @@ public class TestProjectOne {
 		try {
 			PasswordManager pm = new PasswordManager();
 			pm.userInterface();
-		} catch (Exception e) {
+		} catch (Exception e) { // fails the test if an Exception is caught
 
 			e.printStackTrace();
 			return false;
@@ -39,11 +125,18 @@ public class TestProjectOne {
 	}
 
 	/**
+	 * Tests the first input prompt of the User Interface with invalid input
 	 * 
-	 * @return
+	 * @return boolean - determines the success of the test
 	 */
 	public static boolean invalidInputTest1() {
 
+		System.out.println();
+		System.out.println();
+		System.out.println("invalidInputTest1: ");
+		System.out.println();
+		System.out.println();
+		
 		// Commands that initially give an invalid input and check for invalid input
 		// prompt - Continues with standard program flow and quits
 		String simulatedUserInput = "t" + System.getProperty("line.separator") + "a"
@@ -55,7 +148,7 @@ public class TestProjectOne {
 		try {
 			PasswordManager pm = new PasswordManager();
 			pm.userInterface();
-		} catch (Exception e) {
+		} catch (Exception e) {// fails the test if an Exception is caught
 
 			e.printStackTrace();
 			return false;
@@ -66,11 +159,18 @@ public class TestProjectOne {
 	}
 
 	/**
+	 * Tests user menu with invalid input
 	 * 
-	 * @return
+	 * @return boolean - determines the success of the test
 	 */
 	public static boolean invalidInputTest2() {
 
+		System.out.println();
+		System.out.println();
+		System.out.println("invalidInputTest2: ");
+		System.out.println();
+		System.out.println();
+		
 		// Commands that initially give an invalid input and check for invalid input
 		// prompt - Continues with standard program flow and quits
 		String simulatedUserInput = "a" + System.getProperty("line.separator") + "abc"
@@ -82,7 +182,7 @@ public class TestProjectOne {
 		try {
 			PasswordManager pm = new PasswordManager();
 			pm.userInterface();
-		} catch (Exception e) {
+		} catch (Exception e) {// fails the test if an Exception is caught
 
 			e.printStackTrace();
 			return false;
@@ -93,11 +193,18 @@ public class TestProjectOne {
 	}
 
 	/**
+	 * Tests username prompt with invalid username
 	 * 
-	 * @return
+	 * @return boolean - determines the success of the test
 	 */
 	public static boolean invalidUsernameTest() {
 
+		System.out.println();
+		System.out.println();
+		System.out.println("invalidUsernameTest: ");
+		System.out.println();
+		System.out.println();
+		
 		// Commands that initially give an invalid username and check for return to
 		// login function - Continues with standard program flow and quits
 		String simulatedUserInput = "a" + System.getProperty("line.separator") + "truck"
@@ -110,7 +217,7 @@ public class TestProjectOne {
 		try {
 			PasswordManager pm = new PasswordManager();
 			pm.userInterface();
-		} catch (Exception e) {
+		} catch (Exception e) {// fails the test if an Exception is caught
 
 			e.printStackTrace();
 			return false;
@@ -120,8 +227,19 @@ public class TestProjectOne {
 		return true;
 	}
 
+	/**
+	 * Tests enter password prompt with invalid input
+	 * 
+	 * @return boolean - determines the success of the test
+	 */
 	public static boolean invalidPasswordTest() {
 
+		System.out.println();
+		System.out.println();
+		System.out.println("invalidPasswordTest: ");
+		System.out.println();
+		System.out.println();
+		
 		// Commands that initially give an invalid password and check for return to
 		// input password function - Continues with standard program flow and quits
 		String simulatedUserInput = "a" + System.getProperty("line.separator") + "abc"
@@ -134,7 +252,7 @@ public class TestProjectOne {
 		try {
 			PasswordManager pm = new PasswordManager();
 			pm.userInterface();
-		} catch (Exception e) {
+		} catch (Exception e) {// fails the test if an Exception is caught
 
 			e.printStackTrace();
 			return false;
@@ -145,16 +263,44 @@ public class TestProjectOne {
 	}
 
 	/**
+	 * Tests creating a new user with a pre-existing used username
 	 * 
-	 * @return
+	 * @return boolean - determines the success of the test
 	 */
 	public static boolean duplicateUsernameTest() {
 
-		// Commands that create a new user and try logging in with it - Continues with
+		System.out.println();
+		System.out.println();
+		System.out.println("duplicateUsernameTest: ");
+		System.out.println();
+		System.out.println();
+		
+		// Commands that try to create a duplicate user at login screen - Continues with
 		// standard program flow and quits
 		String simulatedUserInput = "b" + System.getProperty("line.separator") + "abc"
-				+ System.getProperty("line.separator") + "abc1234!" + System.getProperty("line.separator") + "abc"
-				+ System.getProperty("line.separator") + "abc123!" + System.getProperty("line.separator") + "q"
+				+ System.getProperty("line.separator") + "xyz" + System.getProperty("line.separator") + "xyz123!"
+				+ System.getProperty("line.separator") + "xyz" + System.getProperty("line.separator") + "xyz123!"
+				+ System.getProperty("line.separator") + "q" + System.getProperty("line.separator");
+
+		System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
+
+		try {
+			PasswordManager pm = new PasswordManager();
+			pm.userInterface();
+		} catch (Exception e) {// fails the test if an Exception is caught
+
+			e.printStackTrace();
+			return false;
+		}
+
+		// Commands that try to create a duplicate user at user menu screen - Continues
+		// with
+		// standard program flow and quits
+		simulatedUserInput = "a" + System.getProperty("line.separator") + "xyz" + System.getProperty("line.separator")
+				+ "xyz123!" + System.getProperty("line.separator") + "b" + System.getProperty("line.separator") + "xyz"
+				+ System.getProperty("line.separator") + "pqr" + System.getProperty("line.separator") + "pqr123!"
+				+ System.getProperty("line.separator") + "a" + System.getProperty("line.separator") + "pqr"
+				+ System.getProperty("line.separator") + "pqr123!" + System.getProperty("line.separator") + "q"
 				+ System.getProperty("line.separator");
 
 		System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
@@ -162,7 +308,7 @@ public class TestProjectOne {
 		try {
 			PasswordManager pm = new PasswordManager();
 			pm.userInterface();
-		} catch (Exception e) {
+		} catch (Exception e) {// fails the test if an Exception is caught
 
 			e.printStackTrace();
 			return false;
@@ -173,11 +319,18 @@ public class TestProjectOne {
 	}
 
 	/**
+	 * Tests the add URL and get URL functionality
 	 * 
-	 * @return
+	 * @return boolean - determines the success of the test
 	 */
 	public static boolean addURLgetURLTest() {
 
+		System.out.println();
+		System.out.println();
+		System.out.println("addURLgetURLTest: ");
+		System.out.println();
+		System.out.println();
+		
 		// Commands that add a new URL-username-password set
 		String simulatedUserInput = "a" + System.getProperty("line.separator") + "abc"
 				+ System.getProperty("line.separator") + "abc123!" + System.getProperty("line.separator") + "a"
@@ -190,7 +343,7 @@ public class TestProjectOne {
 		try {
 			PasswordManager pm = new PasswordManager();
 			pm.userInterface();
-		} catch (Exception e) {
+		} catch (Exception e) {// fails the test if an Exception is caught
 
 			e.printStackTrace();
 			return false;
@@ -207,7 +360,7 @@ public class TestProjectOne {
 		try {
 			PasswordManager pm = new PasswordManager();
 			pm.userInterface();
-		} catch (Exception e) {
+		} catch (Exception e) {// fails the test if an Exception is caught
 
 			e.printStackTrace();
 			return false;
@@ -218,11 +371,18 @@ public class TestProjectOne {
 	}
 
 	/**
+	 * Tests the update password functionality
 	 * 
-	 * @return
+	 * @return boolean - determines the success of the test
 	 */
 	public static boolean updatePasswordTest() {
 
+		System.out.println();
+		System.out.println();
+		System.out.println("updatePasswordTest: ");
+		System.out.println();
+		System.out.println();
+		
 		// commands for updating password
 		String simulatedUserInput = "a" + System.getProperty("line.separator") + "abc"
 				+ System.getProperty("line.separator") + "abc123!" + System.getProperty("line.separator") + "u"
@@ -236,7 +396,7 @@ public class TestProjectOne {
 		try {
 			PasswordManager pm = new PasswordManager();
 			pm.userInterface();
-		} catch (Exception e) {
+		} catch (Exception e) {// fails the test if an Exception is caught
 
 			e.printStackTrace();
 			return false;
@@ -247,17 +407,61 @@ public class TestProjectOne {
 	}
 
 	/**
+	 * Tests the secure password funtionality within update password functionality
 	 * 
+	 * @return
+	 */
+	public static boolean unsecurePasswordTest() {
+
+		System.out.println();
+		System.out.println();
+		System.out.println("unsecurePasswordTest: ");
+		System.out.println();
+		System.out.println();
+		
+		// commands for updating password with an unssecure password
+		String simulatedUserInput = "a" + System.getProperty("line.separator") + "abc"
+				+ System.getProperty("line.separator") + "abc123?" + System.getProperty("line.separator") + "u"
+				+ System.getProperty("line.separator") + "abc" + System.getProperty("line.separator") + "abc12"
+				+ System.getProperty("line.separator") + "abc123!" + System.getProperty("line.separator") + "a"
+				+ System.getProperty("line.separator") + "abc" + System.getProperty("line.separator") + "abc123!"
+				+ System.getProperty("line.separator") + "q" + System.getProperty("line.separator");
+
+		System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
+
+		try {
+			PasswordManager pm = new PasswordManager();
+			pm.userInterface();
+		} catch (Exception e) {// fails the test if an Exception is caught
+
+			e.printStackTrace();
+			return false;
+		}
+
+		System.out.println();
+		return true;
+	}
+
+	/**
+	 * Runs all tests method and utilizes functionality of FileUtility class 
 	 * @param args
 	 */
 	public static void main(String[] args) {
 
-		FileUtility object = new FileUtility(new File("Data.txt"));
+		ArrayList<Boolean> test = new ArrayList<Boolean>();
+		FileUtility fileObject = null;
 		HashTableMap<String, User> users = new HashTableMap<String, User>();
 		LinkedList<String> listOfUsernames = new LinkedList<String>();
-		object.loadData(users, listOfUsernames);
-
-		ArrayList<Boolean> test = new ArrayList<Boolean>();
+		
+		boolean result = fileUtilityTest();
+		
+		//utilises FileUtility class to store original file if all FileUtility tests pass
+		if (result) {
+			
+			test.add(result);
+			fileObject = new FileUtility(new File("Data.txt"));
+			fileObject.loadData(users, listOfUsernames);
+		}
 
 		test.add(createUserTest());
 		test.add(invalidInputTest1());
@@ -267,21 +471,25 @@ public class TestProjectOne {
 		test.add(duplicateUsernameTest());
 		test.add(addURLgetURLTest());
 		test.add(updatePasswordTest());
+		test.add(unsecurePasswordTest());
 
-		object.saveData(users, listOfUsernames);
+		//reverts data.txt back to original
+		fileObject.saveData(users, listOfUsernames);
 
 		System.out.println("Test results:-");
 		System.out.println();
 
 		int i = 0;
+		System.out.println("fileUtilityTest: "+ test.get(i++));
 		System.out.println("createUserTest: " + test.get(i++));
 		System.out.println("invalidInputTest1: " + test.get(i++));
 		System.out.println("invalidInputTest2: " + test.get(i++));
 		System.out.println("invalidUsernameTest: " + test.get(i++));
-		System.out.println("invalidPasswordTest: "+ test.get(i++));
-		System.out.println("duplicateUsernameTest: "+ test.get(i++));
+		System.out.println("invalidPasswordTest: " + test.get(i++));
+		System.out.println("duplicateUsernameTest: " + test.get(i++));
 		System.out.println("addURLgetURLTest: " + test.get(i++));
 		System.out.println("updatePasswordTest: " + test.get(i++));
+		System.out.println("unsecurePasswordTest: " + test.get(i++));
 
 	}
 
