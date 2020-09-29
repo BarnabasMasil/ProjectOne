@@ -15,7 +15,7 @@ import java.util.Scanner;
  * This class is the main class where Userinterface occurs and where altertion or changes are stored
  * or loaded
  * 
- * @author barna
+ * @author Barnabas, Jeff, Aneesh, Yuan Ling, Tavish
  *
  */
 public class PasswordManager {
@@ -27,7 +27,15 @@ public class PasswordManager {
   private boolean isRunning = true;
 
   public PasswordManager() {
-    utility = new FileUtility(new File("TestFile.txt"));
+    utility = new FileUtility(new File("DefaultFile.txt"));
+    users = new HashTableMap<>();
+    listOfUsernames = new LinkedList<>();
+    utility.loadData(users, listOfUsernames);
+    scan = new Scanner(System.in);
+  }
+
+  public PasswordManager(File file) {
+    utility = new FileUtility(file);
     users = new HashTableMap<>();
     listOfUsernames = new LinkedList<>();
     utility.loadData(users, listOfUsernames);
@@ -37,7 +45,7 @@ public class PasswordManager {
   /**
    * This method is the userInterface where the user can interact with the program
    * 
-   * @author barna, aneesh
+   *  @author Barnabas, Jeff, Aneesh, Yuan Ling, Tavish
    */
   public void userInterface() {
     String tempName, tempPass, tempUrl;
@@ -254,6 +262,8 @@ public class PasswordManager {
    * 
    * @param username The String that contains a chosen username
    * @param password The String that contains a chosen password
+   * 
+   * @author Barnabas
    */
   public boolean addNewUser(String username, String password) {
     for (int i = 0; i < listOfUsernames.size(); i++) {
@@ -338,6 +348,8 @@ public class PasswordManager {
    * @param url           The String that contains a chosen url
    * @param username      The String that contains a chosen username
    * @param password      The String that contains a chosen password
+   * 
+   * @author Barnabas
    */
   public void addNewCredential(String loginUsername, String url, String username, String password) {
     users.get(loginUsername).addCredential(url, username, password);
@@ -358,8 +370,8 @@ public class PasswordManager {
    * This method updates a existing user's password with a new password
    * 
    * @author Jeff
-   * @param username-    existing username
-   * @param newPassword- new password being added
+   * @param username    existing username
+   * @param newPassword new password being added
    */
   public void updatePassword(String username, String newPassword) {
     while (!validatePassword(newPassword)) {
@@ -383,7 +395,7 @@ public class PasswordManager {
    * numbers and letters and either a ! or ? symbol.
    * 
    * @author Jeff
-   * @param pass - password input
+   * @param pass password input
    */
   private static boolean validatePassword(String pass) {
     boolean checkLength = false;
@@ -421,8 +433,7 @@ public class PasswordManager {
    * 
    */
   public static void main(String[] args) {
-    PasswordManager pm = new PasswordManager();
+    PasswordManager pm = new PasswordManager(new File("Data.txt"));
     pm.userInterface();
-
   }
 }

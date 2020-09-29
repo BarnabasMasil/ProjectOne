@@ -17,7 +17,7 @@ import java.util.Scanner;
 /**
  * This class is used to load and save data from a file to a hashTableMap and its contents
  * 
- * @author Barnabas
+ * @author Barnabas, Tavish
  *
  */
 public class FileUtility {
@@ -268,5 +268,21 @@ public class FileUtility {
    */
   public boolean getIsFileEmpty() {
     return isEmpty;
+  }
+  
+  /**
+   * A static method that allows a file to be empty
+   * 
+   * @param file
+   * @return true if it could be emptied and false otherwise
+   */
+  public static boolean EmptyFile(File file) {
+    try {
+      new FileWriter(file.getPath(), false).close();
+      return true;
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return false;
   }
 }
