@@ -1,3 +1,11 @@
+// --== CS400 File Header Information ==--
+// Name: Barnabas Masil Adrian anak Christopher
+// Email: adriananakch@wisc.edu
+// Team: GA
+// Role: Data Wrangler
+// TA: Daniel Kiel
+// Lecturer: Gary Dahl
+// Notes to Grader:
 import java.util.LinkedList;
 
 /**
@@ -8,8 +16,6 @@ import java.util.LinkedList;
  * @author barna
  *
  */
-
-//Tavish - placed the Data class implementation within this class
 public class User {
 
   private String loginUsername;
@@ -17,7 +23,7 @@ public class User {
 
   private HashTableMap<String, Data> credentials;
   private LinkedList<String> listOfUrls;
-  
+
   public User(String username, String password) {
     loginUsername = username;
     loginPassword = password;
@@ -37,6 +43,8 @@ public class User {
 
   }
 
+  // Getters and Setters
+
   public String getLoginUsername() {
     return loginUsername;
   }
@@ -44,21 +52,21 @@ public class User {
   public String getLoginPassword() {
     return loginPassword;
   }
-  
+
   public void setLoginUsername(String username) {
     this.loginUsername = username;
   }
 
   public void setLoginPassword(String password) {
-   loginPassword = password;
+    loginPassword = password;
   }
 
   public HashTableMap<String, Data> getCredentials() {
     return credentials;
   }
 
-  public LinkedList<String> getListOfUrls(){
+  public LinkedList<String> getListOfUrls() {
     return listOfUrls;
   }
-  
+
 }

@@ -2,6 +2,7 @@
 // Name: Barnabas Masil Adrian anak Christopher
 // Email: adriananakch@wisc.edu
 // Team: GA
+// Role: Data Wrangler
 // TA: Daniel Kiel
 // Lecturer: Gary Dahl
 // Notes to Grader:

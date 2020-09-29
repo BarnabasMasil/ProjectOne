@@ -1,3 +1,12 @@
+// --== CS400 File Header Information ==--
+// Name: Barnabas Masil Adrian anak Christopher
+// Email: adriananakch@wisc.edu
+// Team: GA
+// Role: Data Wrangler
+// TA: Daniel Kiel
+// Lecturer: Gary Dahl
+// Notes to Grader:
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -8,7 +17,7 @@ import java.util.Scanner;
 /**
  * This class is used to load and save data from a file to a hashTableMap and its contents
  * 
- * @author barna
+ * @author Barnabas
  *
  */
 public class FileUtility {
@@ -21,16 +30,22 @@ public class FileUtility {
   public FileUtility(File file) {
     Scanner temp;
     try {
+      if(file == null) {
+        throw new NullPointerException("Enable to read or write to a null file");
+      }
+      
       file.createNewFile();
       this.file = file;
-      
+
       temp = new Scanner(file);
       isEmpty = !temp.hasNext();
-      
+
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     } catch (IOException e1) {
       e1.printStackTrace();
+    } catch (NullPointerException e2) {
+      System.out.println(e2.getMessage());
     }
 
   }
@@ -48,7 +63,7 @@ public class FileUtility {
     String[] urls = null;
     String[] usernames = null;
     String[] passwords = null;
-    
+
     boolean isCredentialsEmpty = true;
 
     try {
@@ -74,9 +89,9 @@ public class FileUtility {
 
         if (line.equals("Urls")) {
           urls = info.substring(info.indexOf(":") + 1).trim().split("\\s");
-          if(urls[0].length() == 0) {
+          if (urls[0].length() == 0) {
             isCredentialsEmpty = true;
-          }else {
+          } else {
             isCredentialsEmpty = false;
           }
         }
@@ -92,7 +107,7 @@ public class FileUtility {
           passwords = new String[urls.length];
 
           String temp = "";
-          
+
           boolean onPassword = false;
           int counter = 0;
 
@@ -106,7 +121,7 @@ public class FileUtility {
                 passwords[counter] = temp.substring(1);
                 counter++;
                 temp = "";
-                
+
               }
             }
 
@@ -121,14 +136,14 @@ public class FileUtility {
           // System.out.println(loginUsername);
           users.put(loginUsername, new User(loginUsername, loginPassword));
           listOfUsernames.add(loginUsername);
-          
-          if(isCredentialsEmpty == false) {
+
+          if (isCredentialsEmpty == false) {
             for (int i = 0; i < urls.length; i++) {
               users.get(loginUsername).addCredential(urls[i], usernames[i], passwords[i]);
 
             }
           }
-          
+
           loginUsername = null;
           loginPassword = null;
           urls = null;
@@ -220,6 +235,7 @@ public class FileUtility {
 
   /**
    * This is a helper method that allows the file to be written in
+   * 
    * @param input The input to write into the file
    */
   private void writeFile(String input) {
@@ -246,7 +262,7 @@ public class FileUtility {
       }
     }
   }
-  
+
   /**
    * Returns true if the file is empty and false otherwise
    */
